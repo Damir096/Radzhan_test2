@@ -9,12 +9,8 @@ const translations = {
         location_title: "Мекен-жайымыз",
         location_address: "Оралхан Бөкей көшесі, 16/2, Өскемен",
         btn_map: "Картадан ашу",
-        dresscode_title: "Дресс-Код",
-        dress_men_label: "Ерлер:",
-        dress_men_desc: "классикалық костюм",
-        dress_women_label: "Әйелдер:",
-        dress_women_desc: "кешкі көйлек",
-        dress_note: "Сіздердің салтанатты бейнелеріңіз біздің мерекеміздің ажарын аша түседі!",
+        dresscode_title: "Дресс-код және той түстері",
+        dress_note: "Біз сіздерді дәл өздеріңіздей әдемі кешкі образда күтеміз!",
         timeline_title: "Той бағдарламасы",
         event_gathering: "Қонақтардың жиналуы",
         event_betashar: "Беташар",
@@ -35,12 +31,6 @@ const translations = {
         opt_yes: "Қуана қатысамын",
         opt_plus: "Жұбыммен келемін",
         opt_no: "Қатыса алмаймын",
-        label_drinks: "Қандай сусын қалайсыз?",
-        drink_wine: "Шарап",
-        drink_whiskey: "Виски",
-        drink_cognac: "Коньяк",
-        drink_vodka: "Арақ",
-        drink_none: "Алкогольсіз",
         btn_submit: "Жіберу",
         btn_sending: "Жіберілуде...",
         status_ok: "Рахмет! Сіздің жауабыңыз қабылданды.",
@@ -58,12 +48,8 @@ const translations = {
         location_title: "Место проведения",
         location_address: "ул. Оралхана Бокея, 16/2, Усть-Каменогорск",
         btn_map: "Открыть карту",
-        dresscode_title: "Дресс-Код",
-        dress_men_label: "Мужчины:",
-        dress_men_desc: "классический костюм",
-        dress_women_label: "Женщины:",
-        dress_women_desc: "вечернее платье",
-        dress_note: "Ваши праздничные образы подчеркнут атмосферу нашего торжества!",
+        dresscode_title: "Дресс-код и цвета свадьбы",
+        dress_note: "Будем ждать Вас в таких же красивых образах, как и Вы сами!",
         timeline_title: "Программа вечера",
         event_gathering: "Сбор гостей",
         event_betashar: "Беташар",
@@ -84,12 +70,6 @@ const translations = {
         opt_yes: "С радостью приду",
         opt_plus: "Приду с парой",
         opt_no: "К сожалению, не смогу",
-        label_drinks: "Какие напитки предпочитаете?",
-        drink_wine: "Вино",
-        drink_whiskey: "Виски",
-        drink_cognac: "Коньяк",
-        drink_vodka: "Водка",
-        drink_none: "Безалкогольные",
         btn_submit: "Отправить",
         btn_sending: "Отправка...",
         status_ok: "Спасибо! Ваш ответ принят.",
@@ -195,7 +175,6 @@ rsvpForm.addEventListener('submit', function(e) {
     btnText.innerText = translations[currentLang].btn_sending;
 
     const formData = new FormData(this);
-    const drinks = formData.getAll('drinks').join(', ');
     const attendance = formData.get('attendance');
     const name = formData.get('name');
 
@@ -203,7 +182,6 @@ rsvpForm.addEventListener('submit', function(e) {
         timestamp: new Date().toLocaleString(),
         name: name,
         attendance: attendance,
-        drinks: drinks
     };
 
     // Отправка данных
@@ -231,3 +209,23 @@ rsvpForm.addEventListener('submit', function(e) {
         btnText.innerText = translations[currentLang].btn_submit;
     });
 });
+
+// --- 6. DRESSCODE COLOR PICKER ---
+const colorSwatches = document.querySelectorAll('.color-swatch');
+const dressFills = document.querySelectorAll('.dresscode-fill');
+
+if (colorSwatches.length > 0) {
+    colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            // Remove active from all
+            colorSwatches.forEach(s => s.classList.remove('active'));
+            // Add active to clicked
+            swatch.classList.add('active');
+            // Apply color to SVG fills
+            const color = swatch.style.backgroundColor;
+            dressFills.forEach(el => {
+                el.style.fill = color;
+            });
+        });
+    });
+}
